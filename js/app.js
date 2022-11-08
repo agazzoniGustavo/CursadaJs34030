@@ -180,7 +180,7 @@ function procesarPedido() {
 
 function enviarCompra(e){
     e.preventDefault()
-    const persona = document.querySelector('#cliente').value
+    const persona = document.querySelector('#persona').value
     const email = document.querySelector('#correo').value
 
     if(email === '' || persona == ''){
@@ -194,23 +194,24 @@ function enviarCompra(e){
 
     const btn = document.getElementById('button');
 
-  // document.getElementById('procesar-pago')
-  //  .addEventListener('submit', function(event) {
-  //    event.preventDefault();
-
-    btn.value = 'Enviando...';
-
-    const serviceID = 'default_service';
-    const templateID = 'template_qxwi0jn';
-
-    emailjs.sendForm(serviceID, templateID, this)
-    .then(() => {
-        btn.value = 'Finalizar compra';
-        alert('Correo enviado!');
-    }, (err) => {
-        btn.value = 'Finalizar compra';
-        alert(JSON.stringify(err));
-    });
+    //document.getElementById('form')
+     //.addEventListener('submit', function(event) {
+       //event.preventDefault();
+    
+       btn.value = 'Enviando...';
+    
+       const serviceID = 'default_service';
+       const templateID = 'template_w0kcjl5';
+    
+       emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+          btn.value = 'Finalizar compra';
+          alert('Sent!');
+        }, (err) => {
+          btn.value = 'Finalizar compra';
+          alert(JSON.stringify(err));
+        });
+    };
     
     const spinner = document.querySelector('#spinner')
     spinner.classList.add('d-flex')
@@ -235,4 +236,3 @@ function enviarCompra(e){
 }
 localStorage.clear()
 
-}
