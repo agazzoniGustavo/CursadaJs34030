@@ -97,8 +97,7 @@ const agregarAlCarrito = (prodId) => {
         const item = stockProductos.find((prod) => prod.id === prodId)
         carrito.push(item)
     }
-    //Va a buscar el item, agregarlo al carrito y llama a la funcion actualizarCarrito, que recorre
-    //el carrito y se ve.
+
     actualizarCarrito() 
     //MODIFICA EL CARRITO
 }
@@ -106,21 +105,18 @@ const agregarAlCarrito = (prodId) => {
 const eliminarDelCarrito = (prodId) => {
     const item = carrito.find((prod) => prod.id === prodId)
 
-    const indice = carrito.indexOf(item) //Busca el elemento q yo le pase y nos devuelve su indice.
+    const indice = carrito.indexOf(item) 
 
-    carrito.splice(indice, 1) //Le pasa el indice de mi elemento ITEM y borra 
-    // un elemento 
+    carrito.splice(indice, 1) 
+
     actualizarCarrito() 
     console.log(carrito)
 }
 
 const actualizarCarrito = () => {
 
-    contenedorCarrito.innerHTML = "" //Cada vez que yo llame a actualizarCarrito, lo primero q hago
-    //es borrar el nodo. Y despues recorro el array lo actualizo de nuevo y lo rellena con la info
-    //actualizado
+    contenedorCarrito.innerHTML = "" 
 
-    //Por cada producto creo un div con esta estructura y le hago un append al contenedorCarrito (el modal)
     carrito.forEach((prod) => {
         const div = document.createElement('div')
         div.className = ('productoEnCarrito')
@@ -148,8 +144,6 @@ const actualizarCarrito = () => {
 
     console.log(carrito)
     precioTotal.innerText = carrito.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
-    //Por cada producto q recorro en mi carrito, al acumulador le suma la propiedad precio, con el acumulador
-    //empezando en 0.
 
 }
 
@@ -193,10 +187,6 @@ function enviarCompra(e){
 } else {
 
     const btn = document.getElementById('button');
-
-    //document.getElementById('form')
-     //.addEventListener('submit', function(event) {
-       //event.preventDefault();
     
        btn.value = 'Enviando...';
     
@@ -237,3 +227,86 @@ function enviarCompra(e){
       localStorage.clear()
      
       }
+
+      // API WeatherMap
+      window.addEventListener('load', ()=> {
+        let lon
+        let lat
+    
+        let temperaturaValor = document.getElementById('temperatura-valor')  
+        let temperaturaDescripcion = document.getElementById('temperatura-descripcion')  
+        
+        let ubicacion = document.getElementById('ubicacion')  
+        let iconoAnimado = document.getElementById('icono-animado') 
+    
+        let vientoVelocidad = document.getElementById('viento-velocidad') 
+    
+    
+        if(navigator.geolocation){
+           navigator.geolocation.getCurrentPosition( posicion => {
+
+               lon = posicion.coords.longitude
+               lat = posicion.coords.latitude
+                //DESDE AQUIE MANEJO UBICACIÓN    
+               const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=94b3f3c7782924fb07aa9f476c8d7de5`
+    
+    
+               fetch(url)
+                .then( response => { return response.json()})
+                .then( data => {
+                    
+                    let temp = Math.round(data.main.temp)
+
+                    temperaturaValor.textContent = `${temp} °C`
+    
+                    let desc = data.weather[0].description
+                    temperaturaDescripcion.textContent = desc.toUpperCase()
+                    ubicacion.textContent = data.name
+                    
+                    vientoVelocidad.textContent = `${data.wind.speed} m/s`
+    
+                    //ICONOS PARA ESTADO DE CLIMA
+                    console.log(data.weather[0].main)
+                    switch (data.weather[0].main) {
+                        case 'Thunderstorm':
+                          iconoAnimado.src='animated/thunder.svg'
+                          console.log('TORMENTA');
+                          break;
+                        case 'Drizzle':
+                          iconoAnimado.src='animated/rainy-2.svg'
+                          console.log('LLOVIZNA');
+                          break;
+                        case 'Rain':
+                          iconoAnimado.src='animated/rainy-7.svg'
+                          console.log('LLUVIA');
+                          break;
+                        case 'Snow':
+                          iconoAnimado.src='animated/snowy-6.svg'
+                            console.log('NIEVE');
+                          break;                        
+                        case 'Clear':
+                            iconoAnimado.src='animated/day.svg'
+                            console.log('LIMPIO');
+                          break;
+                        case 'Atmosphere':
+                          iconoAnimado.src='animated/weather.svg'
+                            console.log('ATMOSFERA');
+                            break;  
+                        case 'Clouds':
+                            iconoAnimado.src='animated/cloudy-day-1.svg'
+                            console.log('NUBES');
+                            break;  
+                        default:
+                          iconoAnimado.src='animated/cloudy-day-1.svg'
+                          console.log('por defecto');
+                      }
+    
+                })
+                .catch( error => {
+                    console.log(error)
+                })
+           })
+              
+        }
+    })
+
