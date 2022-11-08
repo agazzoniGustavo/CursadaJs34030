@@ -206,33 +206,34 @@ function enviarCompra(e){
        emailjs.sendForm(serviceID, templateID, this)
         .then(() => {
           btn.value = 'Finalizar compra';
-          alert('Sent!');
+          alert('Email enviado correctamente!');
         }, (err) => {
           btn.value = 'Finalizar compra';
           alert(JSON.stringify(err));
         });
-    };
     
-    const spinner = document.querySelector('#spinner')
-    spinner.classList.add('d-flex')
-    spinner.classList.remove('d-none')
-
-    setTimeout(() => {
-    spinner.classList.remove('d-flex')
-    spinner.classList.add('d-none')
-    formulario.reset()
-
-    const alertExito = document.createElement('p')
-    alertExito.classList.add('alert', 'alerta', 'd-block', 'text-center', 'col-12', 'mt-2', 'alert-success')
-    alertExito.textContent = 'Compra realizada correctamente'
-    formulario.appendChild(alertExito)
-
-    setTimeout(() => {
-        alertExito.remove()
-    }, 3000)
-
-
-    }, 3000)
-}
-localStorage.clear()
-
+    
+        const spinner = document.querySelector('#spinner')
+        spinner.classList.add('d-flex')
+        spinner.classList.remove('d-none')
+     
+        setTimeout(() => {
+          spinner.classList.remove('d-flex')
+          spinner.classList.add('d-none')
+          formulario.reset()
+     
+          const alertExito = document.createElement('p')
+          alertExito.classList.add('alert', 'alerta', 'd-block', 'text-center', 'col-12', 'mt-2', 'alert-success')
+          alertExito.textContent = 'Compra realizada correctamente'
+          formulario.appendChild(alertExito)
+     
+          setTimeout(() => {
+            alertExito.remove()
+          }, 3000)
+     
+     
+        }, 3000)
+      }
+      localStorage.clear()
+     
+      }
